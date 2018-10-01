@@ -11,4 +11,5 @@
 |
 */
 
-Route::get('/', 'AppController@index');
+Route::get('/', 'HomeController@index');
+Route::get('/services', 'ServiceController@index');

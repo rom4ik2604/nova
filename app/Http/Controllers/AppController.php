@@ -8,8 +8,5 @@ use Lavary\Menu\Menu;
 class AppController extends Controller
 {
 
-    public function index()
-    {
-        return view('index');
-    }
+
 }
