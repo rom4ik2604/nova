@@ -13,3 +13,4 @@
 
 Route::get('/', 'HomeController@index');
 Route::get('/services', 'ServiceController@index');
+Route::get('/portfolios', 'PortfolioController@index');
