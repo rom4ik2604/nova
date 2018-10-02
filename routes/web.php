@@ -14,3 +14,9 @@
 Route::get('/', 'HomeController@index');
 Route::get('/services', 'ServiceController@index');
 Route::get('/portfolios', 'PortfolioController@index');
+
+Route::resource('/blog','ArticleController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

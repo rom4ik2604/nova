@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +13,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+//        DB::listen(function ($query) {
+//             var_dump($query->sql.'<br>');
+//            var_dump($query->bindings);
+//            var_dump($query->time);
+//
+//            //В этом примере из документации по версии 5.1 и ранее было:
+//            //DB::listen(function($sql, $bindings, $time) {
+//            //  //
+//
+//        });
     }
 
     /**
