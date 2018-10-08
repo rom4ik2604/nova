@@ -1,12 +1,12 @@
 @extends('blog')
-{{--{!! dd($article) !!}--}}
+
 @section('articles')
     <div class="blog">
         <div class="blog-item well">
             <h2>{{$article->title}}</h2>
             <div class="blog-meta clearfix">
                 <p class="pull-left">
-                    <i class="icon-user"></i> by <a href="#">{{$article->user->name}}</a> | <i class="icon-folder-close"></i> Category <a href="#">{{$article->category->name}}</a> | <i class="icon-calendar"></i>{{\Carbon\Carbon::parse($article->updated_at)->format('F jS, Y')}}
+                    <i class="icon-user"></i> by <a href="#">{{$article->user->name}}</a> | <i class="icon-folder-close"></i> Category <a href="category?category={{$article->category->name}}">{{$article->category->name}}</a> | <i class="icon-calendar"></i> {{\Carbon\Carbon::parse($article->updated_at)->format('F jS, Y')}} | <i class="icon-eye-open"></i> <b>{{$article->views}}</b> Views
                 </p>
                 <p class="pull-right"><i class="icon-comment pull"></i> <a href="#comments">{{$article->comments_count}} Comments</a></p>
             </div>
@@ -14,10 +14,12 @@
             <p>{{$article->text}}</p>
 
             <div class="tag">
-                Tags : <a href="#"><span class="label label-success">CSS3</span></a>
-                <a href="#"><span class="label label-success">HTML5</span></a>
-                <a href="#"><span class="label label-success">Bootstrap</span></a>
-                <a href="#"><span class="label label-success">WordPress</span></a>
+                @if($article->tags)
+                    Tags :
+                    @foreach($article->tags as $tag)
+                        <a href="{{url('blog?tag='.$tag->name)}}"><span class="label label-success">{{$tag->name}}</span></a>
+                    @endforeach
+                @endif
             </div>
 
             <div class="user-info media box">

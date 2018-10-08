@@ -1,5 +1,5 @@
 @extends('layout.index')
-{{--{!! dd($articles) !!}--}}
+
 @section('content')
     <section class="title">
         <div class="container">
@@ -57,42 +57,19 @@
                 <div class="widget widget-popular">
                     <h3>Popular Posts</h3>
                     <div class="widget-blog-items">
-                        <div class="widget-blog-item media">
-                            <div class="pull-left">
-                                <div class="date">
-                                    <span class="month">Jun</span>
-                                    <span class="day">24</span>
+                        @foreach($popular_post as $post)
+                            <div class="widget-blog-item media">
+                                <div class="pull-left">
+                                    <div class="date">
+                                        <span class="month"> {{\Carbon\Carbon::parse($post->updated_at)->format('M')}} </span>
+                                        <span class="day">{{\Carbon\Carbon::parse($post->updated_at)->day}}</span>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <a href="{{route('blog.index')}}/{{$post->id}}"><h5>{{$post->title}}</h5></a>
                                 </div>
                             </div>
-                            <div class="media-body">
-                                <a href="#"><h5>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris</h5></a>
-                            </div>
-                        </div>
-
-                        <div class="widget-blog-item media">
-                            <div class="pull-left">
-                                <div class="date">
-                                    <span class="month">Jun</span>
-                                    <span class="day">24</span>
-                                </div>
-                            </div>
-                            <div class="media-body">
-                                <a href="#"><h5>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris</h5></a>
-                            </div>
-                        </div>
-
-                        <div class="widget-blog-item media">
-                            <div class="pull-left">
-                                <div class="date">
-                                    <span class="month">Jun</span>
-                                    <span class="day">24</span>
-                                </div>
-                            </div>
-                            <div class="media-body">
-                                <a href="#"><h5>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris</h5></a>
-                            </div>
-                        </div>
-
+                        @endforeach
                     </div>
                 </div>
                 <!-- End Popular Posts -->
@@ -103,21 +80,9 @@
                         <div class="row-fluid">
                             <div class="span6">
                                 <ul class="unstyled">
-                                    <li><a href="#">Development</a></li>
-                                    <li><a href="#">Design</a></li>
-                                    <li><a href="#">Updates</a></li>
-                                    <li><a href="#">Tutorial</a></li>
-                                    <li><a href="#">News</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="span6">
-                                <ul class="unstyled">
-                                    <li><a href="#">Joomla</a></li>
-                                    <li><a href="#">Wordpress</a></li>
-                                    <li><a href="#">Drupal</a></li>
-                                    <li><a href="#">Magento</a></li>
-                                    <li><a href="#">Bootstrap</a></li>
+                                    @foreach($categories as $category)
+                                        <li><a href="{{url('blog?category='.$category->name)}}">{{$category->name}}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -129,15 +94,9 @@
                 <div class="widget">
                     <h3>Tag Cloud</h3>
                     <ul class="tag-cloud unstyled">
-                        <li><a class="btn btn-mini btn-primary" href="#">CSS3</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">HTML5</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">WordPress</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">Joomla</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">Drupal</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">Bootstrap</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">jQuery</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">Tutorial</a></li>
-                        <li><a class="btn btn-mini btn-primary" href="#">Update</a></li>
+                        @foreach($tags as $tag)
+                            <li><a class="btn btn-mini btn-primary" href="{{url('blog?tag='.$tag->name)}}">{{$tag->name}}</a></li>
+                        @endforeach
                     </ul>
                 </div>
                 <!-- End Tag Cloud Widget -->
@@ -145,10 +104,9 @@
                 <div class="widget">
                     <h3>Archive</h3>
                     <ul class="archive arrow">
-                        <li><a href="#">May 2013</a></li>
-                        <li><a href="#">April 2013</a></li>
-                        <li><a href="#">March 2013</a></li>
-                        <li><a href="#">February 2013</a></li>
+                        @foreach($archive as $item)
+                            <li><a href="{{url('blog?archive='.mb_strtolower(\Carbon\Carbon::parse($item->totalDate.'-01 00:00:00')->format('F-Y')))}}">{{\Carbon\Carbon::parse($item->totalDate.'-01 00:00:00')->format('F Y') }} ({{$item->totalCount}})</a></li>
+                            @endforeach
                     </ul>
                 </div>
                 <!-- End Archive Widget -->

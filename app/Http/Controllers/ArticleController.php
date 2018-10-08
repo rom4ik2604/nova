@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -12,10 +13,23 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $articles = Article::with('user','category')->withCount('comments')->paginate(5);
-        return view('articles',['articles' => $articles]);
+        $query = $request->query();
+        if(array_key_exists('tag', $query)) {
+            $tag = $request->query('tag');
+            $articles = Article::tagFilter($tag);
+            return view('articles',['articles' => $articles,'tag' => $tag]);
+        } elseif (array_key_exists('category', $query)) {
+            $category = $request->query('category');
+            $articles = Article::categoryFilter($category);
+            return view('articles',['articles' => $articles,'category' => $category]);
+        } elseif (array_key_exists('archive', $query)) {
+            $date = $request->query('archive');
+            $articles = Article::archiveFilter($date);
+            return view('articles',['articles' => $articles,'date' => $date]);
+        } else return view('articles',['articles' => $articles]);
     }
 
     /**
@@ -47,8 +61,9 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::with('user','category','comments')->withCount('comments')->find($id);
-        return view('article',['article' => $article]);
+        $article = Article::with('user','category','comments','tags')->withCount('comments')->find($id);
+        Article::viewsCount($id);
+        return view('article',['article' => json_decode($article)]);
     }
 
     /**
@@ -84,4 +99,5 @@ class ArticleController extends Controller
     {
         //
     }
+
 }
