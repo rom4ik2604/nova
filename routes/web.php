@@ -15,8 +15,11 @@ Route::get('/', 'HomeController@index');
 Route::get('/services', 'ServiceController@index');
 Route::get('/portfolios', 'PortfolioController@index');
 
-Route::resource('/blog','ArticleController')->middleware('sidebar');
-Route::get('/archive','ArticleController@archive')->middleware('sidebar');
+Route::group(['middleware' => 'sidebar'], function () {
+    Route::resource('/blog','ArticleController');
+    Route::get('/archive','ArticleController@archive');
+    Route::get('/search','SearchController@searchArticle')->name('search');
+});
 
 Auth::routes();
 

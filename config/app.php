@@ -152,6 +152,7 @@ return [
          */
         Lavary\Menu\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
         /*
          * Application Service Providers...
          */

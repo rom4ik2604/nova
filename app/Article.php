@@ -5,9 +5,17 @@ namespace App;
 use Hamcrest\Thingy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Searchable;
 
 class Article extends Model
 {
+    use Searchable;
+
+    public function searchableAs()
+    {
+        return 'articles_index';
+    }
+
     // Relationship
     public function user()
     {

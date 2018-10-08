@@ -25,8 +25,8 @@
             </div>
             <aside class="span4">
                 <div class="widget search">
-                    <form>
-                        <input type="text" class="input-block-level" placeholder="Search">
+                    <form action="{{route('search')}}" method="get">
+                        <input type="text" class="input-block-level" name="search" placeholder="Search">
                     </form>
                 </div>
                 <!-- /.search -->
